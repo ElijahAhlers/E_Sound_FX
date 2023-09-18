@@ -1,0 +1,175 @@
+<SFX_Program>:
+    Home:
+    Edit:
+
+
+
+<Home>:
+    name: 'Home'
+
+    GridLayout:
+        cols: 2
+
+        FloatLayout:
+            id: sound_tiles
+
+
+<Edit>:
+    name: 'Edit'
+
+    GridLayout:
+        cols: 3
+
+        Label:
+            size_hint_x: .15
+
+        GridLayout:
+            rows: 3
+            size_hint_x: .7
+
+            Label:
+                size_hint_y: .4
+
+            GridLayout:
+                size_hint_y: .2
+                rows: 2
+
+                GridLayout:
+                    rows: 3
+
+                    canvas.before:
+                        Color:
+                            rgba: 0,.5,1,1
+                        Line:
+                            rectangle: self.x, self.y, self.width, self.height
+
+                    GridLayout:
+                        cols: 3
+
+                        Label:
+                            size_hint_x: .3
+                            text: 'File Name: '
+
+                        TextInput:
+                            size_hint_x: .4
+                            id: file_name_input
+                            text: root.file_name
+                            on_text: root.file_name = self.text
+
+                        GridLayout:
+                            size_hint_x: .3
+                            rows: 2
+
+                            Label:
+                                text: 'Loop Sound'
+
+                            CheckBox:
+                                id: loop_checkbox
+                                active: root.loop
+                                on_active: root.loop = self.active
+
+
+                    GridLayout:
+                        cols: 3
+
+                        Label:
+                            size_hint_x: .3
+                            text: 'Sound Name: '
+
+                        TextInput:
+                            size_hint_x: .4
+                            id: sound_name_input
+                            text: root.sound_name
+                            on_text: root.sound_name = self.text
+
+                        Button:
+                            size_hint_x: .3
+                            text: 'Save'
+                            on_press: root.save()
+
+            Label:
+                size_hint_y: .25
+
+        GridLayout:
+            size_hint_x: .15
+            rows: 3
+            Label:
+                size_hint_y: .1
+
+            Button:
+                size_hint_y: .15
+                text: 'Delete Sound'
+                on_press: root.delete_sound()
+
+            Label:
+                size_hint_y: .75
+
+
+
+<Sound_Tile>:
+
+    drag_timeout: 1000000
+    drag_rectangle: self.x, self.y+(self.height*.6), self.width*.4, (self.height*.4)
+    size_hint_x: .4
+    size_hint_y: .15
+    rows: 2
+
+    canvas.before:
+        Color:
+            rgba: 0,1,.5,1
+        Line:
+            width: 2
+            rectangle: self.x, self.y, self.width, self.height
+
+    GridLayout:
+        size_hint_y: .4
+        cols: 3
+
+        Label:
+
+            canvas.before:
+                Color:
+                    rgba: 1,1,1,1
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+
+            id: sound_name_label
+            size_hint_x: .4
+            text: root.sound_name
+
+        Button:
+            size_hint_x: .3
+            text: 'Play'
+            on_press: root.play()
+
+        Button:
+            size_hint_x: .3
+            text: 'Stop'
+            on_release: root.stop()
+
+    GridLayout:
+        size_hint_y: .6
+        cols: 2
+
+        GridLayout:
+            size_hint_x: .7
+            rows: 2
+
+            Label:
+                size_hint_y: .3
+                text: 'Volume'
+
+            Slider:
+                id: volume_slider
+                size_hint_y: .7
+                min: 0
+                max: 1
+                value: root.volume
+                orientation: 'horizontal'
+                on_value: root.adjust_volume(self.value)
+
+        Button:
+            size_hint_x: .3
+            text: 'Edit'
+            on_press: root.edit()
